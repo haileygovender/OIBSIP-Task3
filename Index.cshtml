@@ -1,0 +1,45 @@
+﻿@model ValueClass
+@{
+    ViewBag.Title = "Temperature Converter";
+}
+
+<div class="container">
+    <link href="~/css/site.css" rel="stylesheet" />
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Temperature Converter</h2>
+
+            @using (Html.BeginForm("ConvertTemperature", "Home", FormMethod.Post, new { @class = "convert-form" }))
+            {
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Temperature)
+                    @Html.TextBoxFor(model => model.Temperature, new { @class = "form-control input-field", placeholder = "Enter temperature" })
+                    @Html.ValidationMessageFor(model => model.Temperature, "", new { @class = "field-validation-error" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FromUnit)
+                    @Html.DropDownListFor(model => model.FromUnit, new SelectList(new[] { "Celsius", "Fahrenheit", "Kelvin" }), new { @class = "form-control select-field" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ToUnit)
+                    @Html.DropDownListFor(model => model.ToUnit, new SelectList(new[] { "Celsius", "Fahrenheit", "Kelvin"}), new { @class = "form-control select-field" })
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-convert">Convert</button>
+                </div>
+            }
+
+            @if (Model != null && Model.ConvertedTemperature != 0)
+            {
+                <div class="converted-temp">
+                    Converted Temperature: @Model.ConvertedTemperature @Model.ToUnit
+                </div>
+            }
+        </div>
+    </div>
+</div>
